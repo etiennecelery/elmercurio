@@ -82,4 +82,4 @@ def get_images(cuerpo, date):
     return div
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=1112, , host='0.0.0.0')
+    app.run_server(debug=True, port=1112, host='0.0.0.0')
