@@ -14,6 +14,7 @@ VALID_USERNAME_PASSWORD_PAIRS = {
 
 external_stylesheets = ['https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = 'El Mercurio'
 
 auth = dash_auth.BasicAuth(
     app,
