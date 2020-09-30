@@ -1,2 +1,2 @@
 # elmercurio
-Free News Reader for El Mercurio
+Free Dash-Python News Reader for El Mercurio
