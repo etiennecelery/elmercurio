@@ -75,7 +75,10 @@ def get_images(cuerpo, date):
     div = html.Div(
         className='columns is-multiline',
         children=[
-            html.Img(src=x, className='column is-full')
+            html.Figure(
+                className='image',
+                children=html.Img(src=x, className='column is-full')
+            )
             for x in imgs
         ]
     )
