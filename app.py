@@ -36,6 +36,8 @@ def serve_layout():
             dcc.Tab(label='Deportes', value='P'),
             dcc.Tab(label='Revista Sábado', value='RVSB'),
             dcc.Tab(label='Domingo', value='RVDG'),
+            dcc.Tab(label='Vivienda y Decoración', value='RVVI'),
+            dcc.Tab(label='Ya', value='RVYA'),
         ]),
         html.Br(),
         html.Div(
@@ -55,23 +57,23 @@ def get_images(cuerpo, date):
     idx = (date.weekday() + 1) % 7
     sun = date - timedelta(idx)
     sat = date - timedelta(7+idx-6)
+    martes = date - timedelta(idx-2)
 
-    if cuerpo in ['R','RVDG']:
+    if cuerpo in ['R','RVDG',]:
         date = sun
-    elif cuerpo in ['RVSB']:
+    elif cuerpo in ['RVSB','RVVI']:
         date = sat
+    elif cuerpo in ['RVYA']:
+        date = martes
 
     url = f"https://digital.elmercurio.com/{date.strftime('%Y/%m/%d')}/{cuerpo}"
     site = requests.get(url)
     soup = bs(site.content, 'lxml')
-    imgs = [x['src'] for x in soup.find(class_='newspaper swiper').find_all('img')]
-    imgs = [x.replace('/tmb/','/big/') for x in imgs[3:]]
+
+    imgs = [x['src'] for x in soup.find(class_='newspaper swiper').find(class_='swiper-wrapper').find_all('img')]
+    imgs = [x.replace('/tmb/','/big/') for x in imgs]
     if cuerpo in ['A','B','C','P']:
         imgs = [imgs[0]]+imgs[2:]+[imgs[1]]
-    elif cuerpo in ['R','RVDG']:
-        imgs = imgs[6:]
-    else:
-        imgs = imgs[5:]
 
     div = html.Div(
         className='columns is-multiline',
