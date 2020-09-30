@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 import dash
+import dash_auth
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
@@ -7,8 +8,17 @@ from datetime import datetime, timedelta
 import re
 import requests
 
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'diario': ''
+}
+
 external_stylesheets = ['https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 def serve_layout():
     return html.Div([
@@ -72,4 +82,4 @@ def get_images(cuerpo, date):
     return div
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=1112)
