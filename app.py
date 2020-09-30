@@ -52,7 +52,7 @@ app.layout = serve_layout()
 def get_images(cuerpo, date):
     date = datetime.strptime(re.split('T| ', date)[0], '%Y-%m-%d')
     idx = (date.weekday() + 1) % 7
-    sun = date - timedelta(7+idx)
+    sun = date - timedelta(idx)
     sat = date - timedelta(7+idx-6)
 
     if cuerpo in ['R','RVDG']:
