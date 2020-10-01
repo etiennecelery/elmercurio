@@ -47,7 +47,7 @@ def serve_layout():
 
     ],className='hero')
 
-app.layout = serve_layout()
+app.layout = serve_layout
 
 @app.callback(Output('page-content', 'children'),
               [Input('tabs', 'value'),
