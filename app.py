@@ -27,7 +27,7 @@ def serve_layout():
             id='date-picker-single',
             date=datetime.today()
         ),
-        html.Img(src='https://merreader.emol.cl/assets/img/logo_mer.png', className='container content'),
+        html.Img(id='imagen-principal', src='https://merreader.emol.cl/assets/img/logo_mer.png', className='container content'),
         dcc.Tabs(id="tabs", value='A', children=[
             dcc.Tab(label='Portada', value='A'),
             dcc.Tab(label='Economía y Negocios', value='B'),
@@ -38,6 +38,7 @@ def serve_layout():
             dcc.Tab(label='Domingo', value='RVDG'),
             dcc.Tab(label='Vivienda y Decoración', value='RVVI'),
             dcc.Tab(label='Ya', value='RVYA'),
+            dcc.Tab(label='La Segunda', value='LASEGUNDA'),
         ]),
         html.Br(),
         html.Div(
@@ -49,7 +50,9 @@ def serve_layout():
 
 app.layout = serve_layout
 
-@app.callback(Output('page-content', 'children'),
+@app.callback([Output('page-content', 'children'),
+               Output('imagen-principal', 'src'),
+               Output('imagen-principal', 'style')],
               [Input('tabs', 'value'),
                Input('date-picker-single','date')])
 def get_images(cuerpo, date):
@@ -66,13 +69,22 @@ def get_images(cuerpo, date):
     elif cuerpo in ['RVYA']:
         date = martes
 
-    url = f"https://digital.elmercurio.com/{date.strftime('%Y/%m/%d')}/{cuerpo}"
+    if cuerpo == 'LASEGUNDA':
+        url = f"https://digital.lasegunda.com/{date.strftime('%Y/%m/%d')}/A"
+        imagen_principal = 'https://segreader.emol.cl/assets/img/logo_lasegunda.png'
+        style = {'background' :'#159E89'}
+    else:
+        url = f"https://digital.elmercurio.com/{date.strftime('%Y/%m/%d')}/{cuerpo}"
+        imagen_principal = 'https://merreader.emol.cl/assets/img/logo_mer.png'
+        style = None
+
+
     site = requests.get(url)
     soup = bs(site.content, 'lxml')
 
     imgs = [x['src'] for x in soup.find(class_='newspaper swiper').find(class_='swiper-wrapper').find_all('img')]
     imgs = [x.replace('/tmb/','/big/') for x in imgs]
-    if cuerpo in ['A','B','C','P']:
+    if cuerpo in ['A','B','C','P','LASEGUNDA']:
         imgs = [imgs[0]]+imgs[2:]+[imgs[1]]
 
     div = html.Div(
@@ -85,7 +97,8 @@ def get_images(cuerpo, date):
             for x in imgs
         ]
     )
-    return div
+
+    return div, imagen_principal, style
 
 if __name__ == '__main__':
     app.run_server(debug=False, port=1112, host='0.0.0.0')
