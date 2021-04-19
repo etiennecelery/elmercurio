@@ -107,6 +107,7 @@ def get_images(cuerpo, date):
         Output('page-content', 'children'),
         [Input('url', 'pathname')])
 def display_page(pathname):
+    print(pathname)
     if '.well-known' in pathname:
         return 'FJI3h26D3YEaYPKu5bhJX8BVlIiz89GDX0KfFAU75oI.QvQH9_ohXpCYFE2SCPln-4s4Z-_GLhAiv19xnRUVkPQ'
     else:
@@ -114,5 +115,7 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, port=1112, host='0.0.0.0', ssl_context=('/etc/letsencrypt/live/diario.estadosfinancieros.cl/fullchain.pem',
-    '/etc/letsencrypt/live/diario.estadosfinancieros.cl/privkey.pem'))
+    app.run_server(debug=False, port=1112, host='0.0.0.0',
+        #ssl_context=('/etc/letsencrypt/live/diario.estadosfinancieros.cl/fullchain.pem',
+        #'/etc/letsencrypt/live/diario.estadosfinancieros.cl/privkey.pem')
+    )
