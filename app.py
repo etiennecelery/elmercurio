@@ -9,13 +9,16 @@ import dash_html_components as html
 from datetime import datetime, timedelta
 import requests
 import re
+from flask import Flask
 
 VALID_USERNAME_PASSWORD_PAIRS = {
     'diario': ''
 }
 
+server = Flask(__name__)
+
 external_stylesheets = ['https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, server=server)
 app.title = 'El Mercurio'
 app.config['suppress_callback_exceptions'] = True
 
@@ -47,14 +50,9 @@ def serve_layout():
         ),
     ],className='hero')
 
-app.layout = html.Div([
-        # represents the URL bar, doesn't render anything
-        dcc.Location(id='url', refresh=False),
-        html.Div(id='page-content'),
-        html.Div(id='page-content2'),
-    ])
+app.layout = serve_layout
 
-@app.callback([Output('page-content2', 'children'),
+@app.callback([Output('page-content', 'children'),
                Output('imagen-principal', 'src'),
                Output('imagen-principal', 'style')],
               [Input('tabs', 'value'),
@@ -105,15 +103,9 @@ def get_images(cuerpo, date):
     return div, imagen_principal, style
 
 
-@app.callback(
-        Output('page-content', 'children'),
-        [Input('url', 'pathname')])
-def display_page(pathname):
-    print(pathname)
-    if '.well-known' in pathname:
-        return 'FJI3h26D3YEaYPKu5bhJX8BVlIiz89GDX0KfFAU75oI.QvQH9_ohXpCYFE2SCPln-4s4Z-_GLhAiv19xnRUVkPQ'
-    else:
-        return serve_layout()
+@server.route('/.well-known/acme-challenge/<challenge>')
+def letsencrypt_check(challenge):
+    return 'FJI3h26D3YEaYPKu5bhJX8BVlIiz89GDX0KfFAU75oI.QvQH9_ohXpCYFE2SCPln-4s4Z-_GLhAiv19xnRUVkPQ'
 
 
 if __name__ == '__main__':
