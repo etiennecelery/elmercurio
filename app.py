@@ -110,6 +110,6 @@ def letsencrypt_check(challenge):
 
 if __name__ == '__main__':
     app.run_server(debug=False, port=1112, host='0.0.0.0',
-        #ssl_context=('/etc/letsencrypt/live/diario.estadosfinancieros.cl/fullchain.pem',
-        #'/etc/letsencrypt/live/diario.estadosfinancieros.cl/privkey.pem')
+        ssl_context=('/etc/letsencrypt/live/diario.estadosfinancieros.cl/fullchain.pem',
+        '/etc/letsencrypt/live/diario.estadosfinancieros.cl/privkey.pem')
     )
