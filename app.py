@@ -108,11 +108,11 @@ def get_images(cuerpo, date):
 @app.callback(
         Output('page-content', 'children'),
         [Input('url', 'pathname')])
-    def display_page(pathname):
-        if '.well-known' in pathname:
-            return 'FJI3h26D3YEaYPKu5bhJX8BVlIiz89GDX0KfFAU75oI.QvQH9_ohXpCYFE2SCPln-4s4Z-_GLhAiv19xnRUVkPQ'
-        else:
-            return serve_layout()
+def display_page(pathname):
+    if '.well-known' in pathname:
+        return 'FJI3h26D3YEaYPKu5bhJX8BVlIiz89GDX0KfFAU75oI.QvQH9_ohXpCYFE2SCPln-4s4Z-_GLhAiv19xnRUVkPQ'
+    else:
+        return serve_layout()
 
 
 if __name__ == '__main__':
