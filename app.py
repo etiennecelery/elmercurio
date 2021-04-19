@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup as bs
 import dash
 import dash_auth
@@ -23,10 +25,7 @@ auth = dash_auth.BasicAuth(
 
 def serve_layout():
     return html.Div([
-        dcc.DatePickerSingle(
-            id='date-picker-single',
-            date=datetime.today()
-        ),
+        dcc.DatePickerSingle(id='date-picker-single', date=datetime.today()),
         html.Img(id='imagen-principal', src='https://merreader.emol.cl/assets/img/logo_mer.png', className='container content'),
         dcc.Tabs(id="tabs", value='A', children=[
             dcc.Tab(label='Portada', value='A'),
@@ -45,7 +44,6 @@ def serve_layout():
             className='container',
             children=html.Div(id='page-content')
         ),
-
     ],className='hero')
 
 app.layout = html.Div([
