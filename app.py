@@ -48,7 +48,11 @@ def serve_layout():
 
     ],className='hero')
 
-app.layout = serve_layout
+app.layout = html.Div([
+        # represents the URL bar, doesn't render anything
+        dcc.Location(id='url', refresh=False),
+        html.Div(id='page-content')
+    ])
 
 @app.callback([Output('page-content', 'children'),
                Output('imagen-principal', 'src'),
@@ -99,6 +103,17 @@ def get_images(cuerpo, date):
     )
 
     return div, imagen_principal, style
+
+
+@app.callback(
+        Output('page-content', 'children'),
+        [Input('url', 'pathname')])
+    def display_page(pathname):
+        if '.well-known' in pathname:
+            return 'FJI3h26D3YEaYPKu5bhJX8BVlIiz89GDX0KfFAU75oI.QvQH9_ohXpCYFE2SCPln-4s4Z-_GLhAiv19xnRUVkPQ'
+        else:
+            return serve_layout()
+
 
 if __name__ == '__main__':
     app.run_server(debug=False, port=1112, host='0.0.0.0', ssl_context=('/etc/letsencrypt/live/diario.estadosfinancieros.cl/fullchain.pem',
