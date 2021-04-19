@@ -7,8 +7,8 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 from datetime import datetime, timedelta
-import re
 import requests
+import re
 
 VALID_USERNAME_PASSWORD_PAIRS = {
     'diario': ''
@@ -17,6 +17,7 @@ VALID_USERNAME_PASSWORD_PAIRS = {
 external_stylesheets = ['https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = 'El Mercurio'
+app.config['suppress_callback_exceptions'] = True
 
 auth = dash_auth.BasicAuth(
     app,
@@ -49,10 +50,11 @@ def serve_layout():
 app.layout = html.Div([
         # represents the URL bar, doesn't render anything
         dcc.Location(id='url', refresh=False),
-        html.Div(id='page-content')
+        html.Div(id='page-content'),
+        html.Div(id='page-content2'),
     ])
 
-@app.callback([Output('page-content', 'children'),
+@app.callback([Output('page-content2', 'children'),
                Output('imagen-principal', 'src'),
                Output('imagen-principal', 'style')],
               [Input('tabs', 'value'),
