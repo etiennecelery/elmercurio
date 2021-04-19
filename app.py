@@ -101,4 +101,5 @@ def get_images(cuerpo, date):
     return div, imagen_principal, style
 
 if __name__ == '__main__':
-    app.run_server(debug=False, port=1112, host='0.0.0.0')
+    app.run_server(debug=False, port=1112, host='0.0.0.0', ssl_context=('/etc/letsencrypt/live/diario.estadosfinancieros.cl/fullchain.pem',
+    '/etc/letsencrypt/live/diario.estadosfinancieros.cl/privkey.pem'))
